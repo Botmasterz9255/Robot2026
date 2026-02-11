@@ -324,6 +324,20 @@ public static final int CLIMBER_CAN_ID = 1;
 public static final int INTAKE_CAN_ID = 2;
 public static final int INTAKECONVEYOR_CAN_ID = 3;
 
+//CHANGE THIS Shooter Constants
+ public static final class ShooterSubsystemConstants {
+    public static final int kFeederMotorCanId = 4;    // SPARK Flex CAN ID
+    public static final int kFlywheelMotorCanId = 5;  // SPARK Flex CAN ID (Right)
+    public static final int kFlywheelFollowerMotorCanId = 6;
+ }
+ public static final class FeederSetpoints {
+      public static final double kFeed = 0.95;
+    }
+
+    public static final class FlywheelSetpoints {
+      public static final double kShootRpm = 5000;
+      public static final double kVelocityTolerance = 100;
+    }
 
 
 

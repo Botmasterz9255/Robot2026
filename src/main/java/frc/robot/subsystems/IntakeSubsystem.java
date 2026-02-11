@@ -14,9 +14,9 @@ import frc.robot.generated.TunerConstants.Constants.IntakeSetpoints;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-    private SparkFlex intakeMotor = new SparkFlex(TunerConstants.INTAKE_CAN_ID, MotorType.kBrushed);
+    private SparkFlex intakeMotor = new SparkFlex(TunerConstants.INTAKE_CAN_ID, MotorType.kBrushless);
 
-    private SparkFlex conveyorMotor = new SparkFlex(TunerConstants.INTAKECONVEYOR_CAN_ID, MotorType.kBrushed);
+    private SparkFlex conveyorMotor = new SparkFlex(TunerConstants.INTAKECONVEYOR_CAN_ID, MotorType.kBrushless);
 
     public IntakeSubsystem() {
 
@@ -69,6 +69,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
       SmartDashboard.putNumber("Intake | Intake | Applied Output", intakeMotor.getAppliedOutput());
       SmartDashboard.putNumber("Intake | Conveyor | Applied Output", conveyorMotor.getAppliedOutput());
+      SmartDashboard.putNumber("Intake in Amps| Intake | Applied Output AMPS", intakeMotor.getOutputCurrent());
+      SmartDashboard.putNumber("Intake Conveyor in Amps | Applied Output", conveyorMotor.getOutputCurrent());
 
     }
 

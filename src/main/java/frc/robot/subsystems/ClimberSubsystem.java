@@ -20,7 +20,7 @@ public class ClimberSubsystem extends SubsystemBase{
 
 
     // Setup using SparkMax motor controller
-    m_climber = new SparkMax(TunerConstants.CLIMBER_CAN_ID, MotorType.kBrushed);
+    m_climber = new SparkMax(TunerConstants.CLIMBER_CAN_ID, MotorType.kBrushless);
     
     //motorConfig = new SparkMaxConfig();
 
