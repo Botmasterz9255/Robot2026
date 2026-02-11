@@ -8,16 +8,23 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.Configs.ShooterSubsystemConfigs;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -35,11 +42,22 @@ public class RobotContainer {
     private final CommandXboxController joystick1 = new CommandXboxController(0);
 
     private final CommandXboxController joystick2 = new CommandXboxController(1);
+    private final SendableChooser<Command> autoChooser;
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    private final ShooterSubsystem Shooter = new ShooterSubsystem();
+    private final ClimberSubsystem Climb = new ClimberSubsystem();
+
     public RobotContainer() {
         configureBindings();
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+        NamedCommands.registerCommand("shoot fuel", Shooter.runShooterCommand());
+        NamedCommands.registerCommand("climber up", Climb.run(
+            ()->{Climb.setPower(0.2);}
+            ).withTimeout(2).finallyDo(Climb::stop));
+         NamedCommands.registerCommand("climber down", Climb.run(()->{Climb.setPower(-.2);}).withTimeout(2).finallyDo(Climb::stop));
     }
 
     private void configureBindings() {
@@ -79,7 +97,7 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
-    public Command getAutonomousCommand() {
+    /*public Command getAutonomousCommand() {
         // Simple drive forward auton
         final var idle = new SwerveRequest.Idle();
         return Commands.sequence(
@@ -97,4 +115,9 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle)
         );
     }
+*/
+    public Command getAutonomousCommand() {
+    return autoChooser.getSelected();
+}
+
 }

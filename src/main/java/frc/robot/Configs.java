@@ -42,7 +42,7 @@ public static final class IntakeSubsystem{
 
 
 }
- public static final class ShooterSubsystem {
+ public static final class ShooterSubsystemConfigs {
     public static final SparkFlexConfig flywheelConfig = new SparkFlexConfig();
     public static final SparkFlexConfig flywheelFollowerConfig = new SparkFlexConfig();
     public static final SparkFlexConfig feederConfig = new SparkFlexConfig();
